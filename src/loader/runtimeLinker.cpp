@@ -144,7 +144,7 @@ void StartNhlResolutionScale(uint64_t eboot_base) {
 			if (current != scale || current_min != scale) {
 				const bool wrote = NhlWriteGuest(settings + ScaleOffset, &scale, sizeof(scale)) &&
 				                   NhlWriteGuest(settings + ScaleMinOffset, &scale, sizeof(scale));
-				if (++writes <= 8) {
+				if (++writes <= 2000) {
 					::printf("NHL27RES: %s scale %g (was %g, min %g)\n", wrote ? "applied" : "FAILED to write",
 					         scale, current, current_min);
 				}
@@ -1985,7 +1985,7 @@ Program* RuntimeLinker::FindProgramById(int32_t id) {
 	return nullptr;
 }
 
-Program* RuntimeLinker::FindProgramByFileName(const std::filesystem::path& elf_name) {
+	Program* RuntimeLinker::FindProgramByFileName(const std::filesystem::path& elf_name) {
 	Common::LockGuard lock(m_mutex);
 
 	auto fixed_name = Common::FixFilenameSlash(Common::PathToGenericString(elf_name));
